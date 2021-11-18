@@ -15,7 +15,7 @@ class Box:
 
 # Box Array goes here
 # build with the following sample
-arr = [Box(1,1,1,'a'), Box(1,1,1,'b'), Box(1,1,1,'c'), Box(1,1,1,'d'), Box(1,1,1,'e')]
+arr = [Box(1,1,1,'a'), Box(1,1,1,'b'), Box(1,1,1,'c'), Box(1,1,1,'d')]
 
 # palletize function takes in an array of boxes, then returns an array of arrays, layer by layer
 # in the form [[[layer1 row 1], [layer1 row 2],...], [[layer2 row1], [layer2 row2],...],...]
@@ -26,8 +26,8 @@ def palletize (array):
     maxLength = 2
 
     # define our output array
-    outputArray = [ [ [ [0] * maxLength] * maxWidth] * maxHeight]
-    # outputArray = [ [[0, 0], [0, 0]] , [[0, 0], [0, 0]] ]
+    # outputArray = [ [ [ [0] * maxLength] * maxWidth] * maxHeight]
+    outputArray = [ [[0, 0], [0, 0]] , [[0, 0], [0, 0]] ]
     print(outputArray)
     #method 1: if it fits, it sits, 1x1x1 edition
     for box in array:
@@ -37,25 +37,44 @@ def palletize (array):
             for palletNumber,pallet in enumerate(outputArray):
                 print('pallet')
                 print(pallet)
+                if homeFound == True:
+                    break
                 for levelNumber, level in enumerate(pallet):
                     print('nested level')
                     print(level)
                     # if we have open level
+                    if homeFound == True:
+                        break
                     for rowNumber, row in enumerate(level):
                         print('row')
                         print(row)
-                        for singleUnitNumber,singleUnit in enumerate(row):
-                            print('singleUnitNum')
-                            print(singleUnitNumber)
-                            print(f'level:{levelNumber}, row:{rowNumber}, sun:{singleUnitNumber}, val:{outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber]}')
-                            # if outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] == 0:
-                            if singleUnit == 0:
-                                print('home found')
-                                print(outputArray)
-                                print('boxid')
-                                print(box.id)
-                                outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] = box.id
-                                homeFound = True
+                        
+                        # outputArray[0][0][0][0] = 1
+                        print(f'level:{levelNumber}, row:{rowNumber}, val:{outputArray[palletNumber][levelNumber][rowNumber]}')
+                        print(outputArray)
+                        # if outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] == 0:
+                        if row == 0:
+                            print('home found')
+                            print(outputArray)
+                            print('boxid')
+                            print(box)
+                            outputArray[palletNumber][levelNumber][rowNumber] = box.id
+                            homeFound = True
+                            break
+                        # for singleUnitNumber,singleUnit in enumerate(row):
+                        #     print('singleUnitNum')
+                        #     print(singleUnitNumber)
+                        #     # outputArray[0][0][0][0] = 1
+                        #     print(f'level:{levelNumber}, row:{rowNumber}, sun:{singleUnitNumber}, val:{outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber]}')
+                        #     print(outputArray)
+                        #     # if outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] == 0:
+                        #     if singleUnit == 0:
+                        #         print('home found')
+                        #         print(outputArray)
+                        #         print('boxid')
+                        #         print(box.id)
+                        #         outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] = box.id
+                        #         homeFound = True
                     else:
                         print('checking again')
                         continue
