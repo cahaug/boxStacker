@@ -5,21 +5,62 @@
 
 # build a box class, represents a box
 class Box:
-    def __init__(self, h, w, d):
+    def __init__(self, h, w, l, id):
         self.h = h
         self.w = w
-        self.d = d
+        self.l = l
+        self.id = id
+    def __str__(self):
+        return f'Box Id:{self.id}: w={self.w}, l={self.l}, h={self.h}'
 
 # Box Array goes here
 # build with the following sample
-arr = [Box(1,1,1), Box(1,1,1), Box(1,1,1), Box(1,1,1), Box(1,1,1)]
+arr = [Box(1,1,1,'a'), Box(1,1,1,'b'), Box(1,1,1,'c'), Box(1,1,1,'d'), Box(1,1,1,'e')]
 
 # palletize function takes in an array of boxes, then returns an array of arrays, layer by layer
 # in the form [[[layer1 row 1], [layer1 row 2],...], [[layer2 row1], [layer2 row2],...],...]
-def palletize (arr):
-    # starting with a resolution of 8x1x1 for simplicity's sake
-    maxHeight = 8
-    maxWidth = 1
-    maxLength = 1
+def palletize (array):
+    # starting with a resolution of 2x2x2 for simplicity's sake
+    maxHeight = 2
+    maxWidth = 2
+    maxLength = 2
 
+    # define our output array
+    outputArray = [ [ [ [0] * maxLength] * maxWidth] * maxHeight]
+    # outputArray = [ [[0, 0], [0, 0]] , [[0, 0], [0, 0]] ]
+    print(outputArray)
+    #method 1: if it fits, it sits, 1x1x1 edition
+    for box in array:
+        print(box)
+        homeFound = False
+        while homeFound == False:
+            for palletNumber,pallet in enumerate(outputArray):
+                print('pallet')
+                print(pallet)
+                for levelNumber, level in enumerate(pallet):
+                    print('nested level')
+                    print(level)
+                    # if we have open level
+                    for rowNumber, row in enumerate(level):
+                        print('row')
+                        print(row)
+                        for singleUnitNumber,singleUnit in enumerate(row):
+                            print('singleUnitNum')
+                            print(singleUnitNumber)
+                            print(f'level:{levelNumber}, row:{rowNumber}, sun:{singleUnitNumber}, val:{outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber]}')
+                            # if outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] == 0:
+                            if singleUnit == 0:
+                                print('home found')
+                                print(outputArray)
+                                print('boxid')
+                                print(box.id)
+                                outputArray[palletNumber][levelNumber][rowNumber][singleUnitNumber] = box.id
+                                homeFound = True
+                    else:
+                        print('checking again')
+                        continue
     
+    return outputArray
+
+
+palletize(arr)
